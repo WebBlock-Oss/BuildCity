@@ -12,8 +12,14 @@ buildtype = "road"
 mouseColour = (0, 0, 0)
 writeFont = pygame.font.SysFont('Comic Sans MS', 30)
 workDemand = 10
+i = 0
+baseWorkDemand = 10
 
 while running:
+    i += 1
+    if i == 10000:
+        baseWorkDemand += 1
+        i = 0
 
     mousePos = pygame.mouse.get_pos()
 
@@ -63,7 +69,7 @@ while running:
     pygame.draw.rect(screen, mouseColour, ((50*(round((mouseX-25)/50)), 50*(round((mouseY-25)/50))), (50, 50)))
 
     population = 0
-    workDemand = 10
+    workDemand = baseWorkDemand
 
     for value in buildings:
         out = value.split(", ")
@@ -81,6 +87,9 @@ while running:
 
         if build == "commercial":
             pygame.draw.rect(screen, (0, 30, 225), ((int(x), int(y)), (50, 50)))
+            workDemand -= 1
+            if workDemand == -1:
+                workDemand = 0
 
         if build == "office":
             pygame.draw.rect(screen, (255, 0, 255), ((int(x), int(y)), (50, 50)))
